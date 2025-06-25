@@ -3,19 +3,28 @@ import {
     createProduct, getAllProducts, getProductById, 
     updateProduct, deleteProduct, usersWithProducts, productCountByCategory 
 } from '../controllers/productController.js';
-import { authenticateUser } from '../middleware/authMiddleware.js';
+import { authenticateUser, isAdmin } from '../middleware/authMiddleware.js';
+import upload from '../middleware/uploads.js';
+import { productValidator } from '../middleware/authMiddleware.js';
+import { validate } from '../middleware/authMiddleware.js';
+import { exportProductsCSV } from '../controllers/productController.js';
 
 const router = express.Router();
 
-// Routes for product management
-router.post('/', authenticateUser, createProduct);
-router.get('/', authenticateUser, getAllProducts);
-router.get('/:id', authenticateUser, getProductById);
-router.put('/:id', authenticateUser, updateProduct);
+router.post('/', authenticateUser, upload.single('image'), productValidator, validate, createProduct);
+
+router.get('/download-csv', authenticateUser, isAdmin, exportProductsCSV);
+router.get('/', getAllProducts);
+
+router.get('/:id', getProductById);
+
+router.put('/:id', authenticateUser, upload.single('image'), productValidator, validate, updateProduct);
+
 router.delete('/:id', authenticateUser, deleteProduct);
 
-// Routes for analytics
 router.get('/analytics/users', authenticateUser, usersWithProducts);
 router.get('/analytics/category', authenticateUser, productCountByCategory);
 
 export default router;
+
+

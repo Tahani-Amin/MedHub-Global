@@ -5,7 +5,8 @@ const productSchema = new mongoose.Schema({
     category: String,
     price: Number,
     availability: { type: Boolean, default: true },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    imageUrl: String
 });
 
 export default mongoose.model('Product', productSchema);
