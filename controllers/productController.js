@@ -1,5 +1,6 @@
 import Product from '../models/productModel.js';
 import User from '../models/userModel.js';
+import { createObjectCsvStringifier } from 'csv-writer';
 
 
 // Handles creatipn of a new product
@@ -27,8 +28,6 @@ export const createProduct = async (req, res) => {
     }
 };
 
-
-// Retrieves all products from the database
 
 // Retrieves a single product by its ID
 export const getProductById = async (req, res) => {
@@ -122,7 +121,7 @@ export const productCountByCategory = async (req, res) => {
 };
 
 
-
+// Gets all the products with search and filtering
 export const getAllProducts = async (req, res) => {
     try {
         // Pagination
@@ -167,9 +166,8 @@ export const getAllProducts = async (req, res) => {
     }
 };
 
-import { createObjectCsvStringifier } from 'csv-writer';
 
-// Admin: Export product data as CSV
+// Export products to a csv 
 export const exportProductsCSV = async (req, res) => {
     try {
         const products = await Product.find();

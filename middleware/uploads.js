@@ -8,7 +8,7 @@ if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir);
 }
 
-// Multer storage config
+// configures the multer storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads/');
@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
     }
 });
 
-// File filter (optional: only allow images)
+// filters the uploaded files to only allow images
 const fileFilter = (req, file, cb) => {
     if (file.mimetype.startsWith('image/')) {
         cb(null, true);

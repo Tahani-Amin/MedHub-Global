@@ -9,6 +9,7 @@ import { productValidator } from '../middleware/authMiddleware.js';
 import { validate } from '../middleware/authMiddleware.js';
 import { exportProductsCSV } from '../controllers/productController.js';
 
+// Product routes for handling all the product-related operations
 const router = express.Router();
 
 router.post('/', authenticateUser, upload.single('image'), productValidator, validate, createProduct);

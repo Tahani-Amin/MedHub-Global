@@ -1,10 +1,10 @@
-// JWT Authentication Middleware to allow only logged in user to run certain routes
+// JWT Authentication Middleware to allow only logged in user to run routes
 import jwt from 'jsonwebtoken';
 import { body } from 'express-validator';
 import { validationResult } from 'express-validator';
 
 
-
+// middleware to authenticae the user
 export const authenticateUser = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
@@ -27,15 +27,8 @@ export const authenticateUser = (req, res, next) => {
 };
 
 
-export const errorHandler = (err, req, res, next) => {
-    console.error(err.stack);
-    res.status(err.statusCode || 500).json({
-        success: false,
-        message: err.message || 'Internal Server Error',
-    });
-};
 
-
+//validates the user registration and product creation
 export const registerValidator = [
     body('name').notEmpty().withMessage('Name is required'),
     body('email').isEmail().withMessage('Valid email is required'),
@@ -52,6 +45,7 @@ export const productValidator = [
 
 
 
+//validates the request body
 export const validate = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -63,6 +57,7 @@ export const validate = (req, res, next) => {
     next();
 };
 
+//Checks if the user is an admin
 export const isAdmin = (req, res, next) => {
     if (req.user.role !== 'admin') {
         return res.status(403).json({ message: 'Access denied. Admins only.' });

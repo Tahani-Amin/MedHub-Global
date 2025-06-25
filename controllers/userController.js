@@ -27,7 +27,7 @@ export const registerUser = async (req, res) => {
 };
 
 
-// Handles user login
+// Handles all the user login
 export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
@@ -48,6 +48,8 @@ const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SE
     }
 };
 
+
+// Retrieves all users from only the admin
 export const getAllUsers = async (req, res) => {
     try {
         const users = await User.find().select('-password');
